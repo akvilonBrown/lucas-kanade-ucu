@@ -37,13 +37,9 @@ if __name__ == '__main__':
 
      img_file = folder_path + frame_str + '.jpg'
      template = cv2.imread(img_file, 0)
-     height, width = template.shape
-     #template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
-     
+     height, width = template.shape   
 
      roi_points = ut.rect_corners(roi)
-     #(140,	117) (175, 181)
-     #roi = np.array([[140,	117], [175, 181]], np.int) #clifBar
      
      frame = 2
      
@@ -53,7 +49,7 @@ if __name__ == '__main__':
      
      templ_out = cv2.cvtColor(template, cv2.COLOR_GRAY2BGR)
      templ_out = cv2.rectangle(templ_out, tuple(roi[0]), tuple(roi[1]), (0,250, 0), 2, cv2.LINE_AA)
-     #templ_out = draw_rect(templ_out, roi_points)
+
      if debug:
          plt.imshow(templ_out)
          plt.show()   
@@ -69,9 +65,6 @@ if __name__ == '__main__':
      
          roi_new, roi_points_new = ut.lk_wrapper(image, template, roi, roi_points)
      
-         #templ_out = cv2.cvtColor(template, cv2.COLOR_GRAY2BGR)
-         #templ_out = cv2.rectangle(templ_out, tuple(roi[0]), tuple(roi[1]), (0,250, 0), 2, cv2.LINE_AA)
-         #templ_out = draw_rect(templ_out, roi_points)
          
          image_out = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
          image_out = cv2.rectangle(image_out, tuple(roi_new[0]), tuple(roi_new[1]), (0,250, 0), 2, cv2.LINE_AA)
@@ -87,7 +80,6 @@ if __name__ == '__main__':
          
          roi = roi_new 
          roi_points = roi_points_new
-         #roi_points = rect_corners(roi_new)
          template = image.copy()
          
          

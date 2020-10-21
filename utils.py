@@ -65,9 +65,9 @@ def expand_with_ones(points):
   prep = np.hstack((points, ones_arr))
   return prep
 
-# not used in favor of jacobian_2dof version
+# 
 def jacobian(x_shape, y_shape):
-    # get jacobian of the template size.
+    
     x = np.array(range(x_shape))
     y = np.array(range(y_shape))
     x, y = np.meshgrid(x, y) 
@@ -82,6 +82,7 @@ def jacobian(x_shape, y_shape):
     jacob[:,:, 1, 5] = 1
     return jacob
 
+# version with ranges for usage with custom warper
 def jacobian_range(x_min, x_max, y_min, y_max):
     # get jacobian of the template size.
     x = np.array(range(x_min, x_max))
@@ -269,10 +270,6 @@ def lk_track_v2(img, template, rect, p, threshold = 0.001, max_iter=100):
       grad_x_warp = crop(customWarp(grad_x, warp_mat), rect)
       grad_y_warp = crop(customWarp(grad_y, warp_mat), rect)
 
-      #print(f"grad_x_warp[40,20] {grad_x_warp[40,20]}")
-      #plt.imshow(grad_x_warp)
-      #plt.show()  
-
       # Calculate Jacobian 
       jacob = crop(jacobian_range(-cols//2, cols-cols//2, -rows//2, rows-rows//2), rect)  
 
@@ -346,13 +343,6 @@ def lk_wrapper_v2(img, template, roi, roi_points):
      #initial warp (no transformation = identity)
      p = [1.0, 0 , 0, 1, 0, 0]
 
-     # We need to downsize/crop the image in order to decrease computations for
-     # back warping and move reference point closer to original bounding box.
-     # This should simplify transformation, rotation in particular 
-     # (because it's hardly possible to rotate image with reference point 
-     # at the top left corner)
-     # We assume that tracked object didn't move further than 1/3 from original bounding box position
-     # so let's define new clipping region 1/3 larger than roi
      clip_region = clipping_region(roi, template.shape[0], \
                                    template.shape[1], pad_factor)
      
