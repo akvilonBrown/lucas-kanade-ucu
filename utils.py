@@ -50,10 +50,10 @@ def translate_cordinates(smaller_rectangle, start_x, start_y, reverse = False):
 def clipping_region(roi, img_height, img_width, pad_factor):
   bb_width = roi[1][0] - roi[0][0]
   bb_height = roi[1][1] - roi[0][1]
-  roi_clip_tx = max(0, roi[0][0] - int (bb_width * 0.33))
-  roi_clip_ty = max(0, roi[0][1] - int (bb_height * 0.33)) 
-  roi_clip_bx = min(img_width, roi[1,0] + int (bb_width * 0.33))
-  roi_clip_by = min(img_height, roi[1,1] + int (bb_height * 0.33)) 
+  roi_clip_tx = max(0, roi[0][0] - int (bb_width * pad_factor))
+  roi_clip_ty = max(0, roi[0][1] - int (bb_height * pad_factor)) 
+  roi_clip_bx = min(img_width, roi[1,0] + int (bb_width * pad_factor))
+  roi_clip_by = min(img_height, roi[1,1] + int (bb_height * pad_factor)) 
 
   roi_clip = np.array([[roi_clip_tx, roi_clip_ty], [roi_clip_bx, roi_clip_by]], np.int)
   return roi_clip
